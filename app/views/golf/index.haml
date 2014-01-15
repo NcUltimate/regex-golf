@@ -1,0 +1,10 @@
+%h1#title.salient-white Regex Golf
+#game
+	%input#regex-input{:type => 'text'}
+	#score.salient-white 0
+	#max-score.salient-white= '/ 200'
+	#loader
+		%img{:src => '/assets/ajax-loader.gif'}
+	#lists
+		%ul#match-list.salient-white
+		%ul#reject-list.salient-white

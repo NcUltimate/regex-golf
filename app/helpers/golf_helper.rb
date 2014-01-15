@@ -1,0 +1,3 @@
+module GolfHelper
+
+end
