@@ -71,9 +71,10 @@ end
 def getLists
 	words = File.open('./app/controllers/unix_words.txt','r').readlines.map(&:chomp)
 		.select{|w| (5..10).include?(w.length) }
-		.sample(40).shuffle
-	res = [words[0..19],words[20..39]]
+		.sample(20).shuffle
+	res = [words[0..9],words[10..19]]
 	reg = golf *res
+	puts reg
 	[*res, score(reg, *res)[2], reg]
 end
 

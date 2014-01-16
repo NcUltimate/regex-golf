@@ -15,9 +15,9 @@ function load_lists(data) {
 	$('#match-list').empty();
 	$('#reject-list').empty();
 	$('#max-score').html('/ 200');
-	for(var k=0; k<20; k++) {
-		var li1 = $('<li>').html(data[0][k]).css('opacity', '0');
-		var li2 = $('<li>').html(data[1][k]).css('opacity', '0');
+	for(var k=0; k<data[0].length; k++) {
+		var li1 = $('<li>').html(data[0][k]).css('opacity', '0').addClass('unmatched');
+		var li2 = $('<li>').html(data[1][k]).css('opacity', '0').addClass('unmatched');
 		$('#match-list').append(li1);
 		$('#reject-list').append(li2);
 	}
