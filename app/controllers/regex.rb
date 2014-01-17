@@ -76,7 +76,7 @@ def golf a, b
 	end
 
 	fin.count == 1 ? fin.join : 
-		(fin.count ==0 ? "No Solution" : "#{'^' unless success}(#{fin.join('|')})#{'$' unless success}")
+		(fin.count ==0 ? "No Solution" : "#{'^(' unless success}#{fin.join('|')}#{')$' unless success}")
 end
 
 def getLists
@@ -89,7 +89,7 @@ def getLists
 	chrs = (('A'..'Z').to_a - %w{J X Z Q A E I O U}).sample(1) + %w{A E I O U}.sample(1)
 	regs = [/(#{chrs[0]})#{chrs[1]}\1/, /(#{chrs[0]}).*\1/, /^${chrs[0]}.+#{chrs[0]}$/, 
 			/#{chrs[0]}.{3,}#{chrs[1]}/, /(\w)\1$/, /(\w).\1.\1/,
-			/(\w)(\w).*\1\2/, /[#{lets.join}]+/, /^#{chrs[1]}.+#{chrs[0]}$/, /#{wd}/, //]
+			/(\w)(\w).*\1\2/, /[#{lets.join}]+/,/^[#{lets.join}]{2}/, /^#{chrs[1]}.+#{chrs[0]}$/, /#{wd}/, //]
 	regex = regs.sample(1)[0]
 
 	matches = words.select{|w| w[regex]}.shuffle.sample(15).sort
