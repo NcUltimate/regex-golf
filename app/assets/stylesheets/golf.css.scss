@@ -88,6 +88,11 @@ li.matched {
 		#loader {
 			display: block;
 			text-align: center;
+			img {
+				margin-left: 5px;
+				width: 10px;
+				height: 10px;
+			}
 		}
 	}
 

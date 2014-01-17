@@ -85,10 +85,11 @@ def getLists
 		.sample(1)[0]).grep(/[\w]*[.]+[\w.]+/).sample(1)[0]
 	words = words.select{|w| (5..10).include?(w.length) }
 
+	lets = (('A'..'Z').to_a - %w{A E I O U A Z V X W Q K J}).sample(4+rand(4)) + %w{A E I O U}.sample(1 + rand(2))
 	chrs = (('A'..'Z').to_a - %w{J X Z Q A E I O U}).sample(1) + %w{A E I O U}.sample(1)
 	regs = [/(#{chrs[0]})#{chrs[1]}\1/, /(#{chrs[0]}).*\1/, /^${chrs[0]}.+#{chrs[0]}$/, 
-			/^#{chrs[0]}.+#{chrs[1]}/, /#{chrs[0]}.{3,}#{chrs[1]}/,
-			/#{chrs[1]}..#{chrs[0]}/, /^#{chrs[1]}.+#{chrs[0]}$/, /#{wd}/, //]
+			/#{chrs[0]}.{3,}#{chrs[1]}/, /(\w)\1$/, /(\w).\1.\1/,
+			/(\w)(\w).*\1\2/, /[#{lets.join}]+/, /^#{chrs[1]}.+#{chrs[0]}$/, /#{wd}/, //]
 	regex = regs.sample(1)[0]
 
 	matches = words.select{|w| w[regex]}.shuffle.sample(15).sort
