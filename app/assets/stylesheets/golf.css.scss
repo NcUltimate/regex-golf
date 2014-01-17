@@ -12,14 +12,23 @@ ul {
 		font-size: 18px;
 		font-weight: normal;
 		padding: 5px;
+		width: 125px;
 		transition: all 0.2s;
 	}
 }
 li.matched {
-	font-weight: bold;
 	opacity: 1;
-	margin: 2px 0px;
+	margin: 5px 0px;
 	box-shadow: 0px 1px 1px gray;
+}
+
+.unmatched {
+	background: rgba(0,0,0,0.1);
+	font-size: 16px;
+}
+.salient-white {
+	color: white;
+	text-shadow: 0px 1px 1px gray;
 }
 
 #game {
@@ -103,11 +112,4 @@ li.matched {
 			background: #ff3333; /* Old browsers */
 		}
 	}
-}
-.unmatched {
-	background: rgba(0,0,0,0.1);
-}
-.salient-white {
-	color: white;
-	text-shadow: 0px 1px 1px gray;
 }
