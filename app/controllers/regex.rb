@@ -94,7 +94,7 @@ def getLists
 	regs += dots.sample(10).map{|d| /#{d}/}
 
 	regex = regs.sample(1)[0]
-	puts "Choosing #{regex}"
+	#puts "Choosing #{regex}"
 
 	long_wds = words.select{|w| (5..10).include?(w.length) }
 	matches = long_wds.select{|w| w[regex]}.shuffle.sample(15).sort
