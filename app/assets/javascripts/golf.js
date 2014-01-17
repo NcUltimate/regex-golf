@@ -32,6 +32,11 @@ function showAnswer() {
 	if($('#ans').hasClass('inactive')) return;
 
 	$('#loader').fadeIn(200);
+	var gif = $('#gif')
+	$('#loader').empty();
+	$('#loader').append(gif);
+	$('#loader img').before('Computing...');
+
 	$.getJSON('/answer', {}, function(data) {
 		$('#regex-input').val(data);
 		$.getJSON('/matches', {'regex':data}, get_matches);
@@ -79,6 +84,10 @@ function newGame() {
 
 function load_lists() {
 	$('#loader').fadeIn(200);
+	var gif = $('#gif')
+	$('#loader').empty();
+	$('#loader').append(gif);
+	$('#loader img').before('Loading...');
 	$.getJSON('/lists', {}, function(data) {
 		for(var k=0; k<data[0].length; k++) {
 			var li1 = $('<li>').html(data[0][k]).css('opacity', '0').addClass('unmatched');
