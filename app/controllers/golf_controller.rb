@@ -12,4 +12,8 @@ class GolfController < ApplicationController
 	def matches
 		render :json => score(params[:regex]).to_json
 	end
+
+	def answer
+		render :json => golf(session[:match],session[:reject]).to_json
+	end
 end

@@ -6,6 +6,7 @@ $(function() {
 	$('#loader').fadeOut(200);
 	$('#next').unbind('click');
 	$('#new').unbind('click');
+	$('#ans').unbind('click');
 	$('#regex-input').unbind('keyup');
 
 	$('#regex-input').keyup(function(event) {
@@ -21,7 +22,23 @@ $(function() {
 	$('#new').click(function(event) {
 		newGame();
 	});
+
+	$('#ans').click(function(event) {
+		showAnswer();
+	});
 })
+
+function showAnswer() {
+	if($('#ans').hasClass('inactive')) return;
+
+	$('#loader').fadeIn(200);
+	$.getJSON('/answer', {}, function(data) {
+		$('#regex-input').val(data);
+		$.getJSON('/matches', {'regex':data}, get_matches);
+		last_regex = data;
+		$('#loader').fadeOut(200);
+	});
+}
 
 function nextRound() {
 	if(hole >=18) return;
@@ -47,13 +64,15 @@ function nextRound() {
 
 function newGame() {
 	if($('#new').hasClass('inactive')) return;
+	$('#match-list').empty();
+	$('#reject-list').empty();
 	$('#total').html('Score: 0');
 	$('#score').html('0');
 	$('#regex-input').val('');
 
 	hole=1;
 	$('#round').html("Hole: "+hole+" of 18");
-	$('#next').removeClass('inactive');
+	$('.inactive').removeClass('inactive');
 	$('#new').addClass('inactive');
 	load_lists();
 }

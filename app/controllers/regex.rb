@@ -14,19 +14,17 @@ def matches regex, array
 end
 
 def dotify str
-	return [] unless str[/[^\^\$]+/]
+	return [] unless str[/\w+/]
 
-	#puts "before: #{str}"
-	prefixed = str[/^\^/]
-	suffixed = str[/\$$/]
-	str = str[/(?=\^).+/] if prefixed
-	str = str[/.+(?=\$)/] if suffixed
-	#puts "after: #{str}"
+	prefixed = str[/\^/]
+	suffixed = str[/\$/]
+	str = str[/\w+/] if prefixed
+	str = str[/\w+/] if suffixed
 
 
 	0.upto(str.length).reduce([]) do |arr, n|
 		(0..(str.length-1)).to_a.combination(n).each do |combo|
-			spl = str.split(//).map{|ch| ch[/[^\w\s]/] ? "\\"+ch : ch}
+			spl = str.split(//)
 			combo.each{ |k| spl[k] = '.' }
 			arr << "#{'^' if prefixed}#{spl.join}#{'$' if suffixed}"
 		end
@@ -34,14 +32,27 @@ def dotify str
 	end
 end
 
+def inbetweenify str
+	return [] unless str[/\w+/]
+
+	arr = []
+	0.upto(str.length-2).each do |n|
+		(n+1).upto(str.length-1).each do |k|
+			arr << "#{str[n]}.*#{str[k]}"
+		end
+	end
+	arr.uniq
+end
+
 def golf a, b
 	poss = []
 	a.each do |ai|
-		ai = regexify(ai)
-		parts = subparts(ai)
+		parts = subparts(regexify(ai))
 		parts.each do |part|
 			dots = dotify(part)
+			bets = inbetweenify(part)
 			poss += dots.reject{ |dot| b.any?{|bi| bi[/#{dot}/]} }
+			poss += bets.reject{ |bet| b.any?{|bi| bi[/#{bet}/]} }
 		end
 	end
 
