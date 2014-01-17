@@ -1,10 +1,18 @@
-%h1#title.salient-white Regex Golf
-#game
-	%input#regex-input{:type => 'text'}
-	#score.salient-white 0
-	#max-score.salient-white= '/ 200'
-	#loader
-		%img{:src => '/assets/ajax-loader.gif'}
-	#lists
+%div
+	#game
 		%ul#match-list.salient-white
+		#middle
+			%h1#title.salient-white Regex Golf
+			#info
+				#round.salient-white Hole: 1 of 18
+				#total.salient-white Score: 0
+			%input#regex-input{:type => 'text'}
+			#buttons
+				#new.button New Game
+				#next.button.inactive Next Hole
+				#about.button About
+			%div
+				#score.salient-white 0
+			#loader
+				%img{:src => '/assets/ajax-loader.gif'}
 		%ul#reject-list.salient-white

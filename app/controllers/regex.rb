@@ -70,21 +70,29 @@ end
 
 def getLists
 	words = File.open('./app/controllers/unix_words.txt','r').readlines.map(&:chomp)
-		.select{|w| (5..10).include?(w.length) }
-		.sample(20).shuffle
-	res = [words[0..9],words[10..19]]
-	reg = golf *res
-	puts reg
-	[*res, score(reg, *res)[2], reg]
+	wd = dotify(words.select{|w|(3..5).include?(w.length)}
+		.sample(1)[0]).grep(/[\w]*[.]+[\w.]+/).sample(1)[0]
+	words = words.select{|w| (5..10).include?(w.length) }
+
+	chrs = (('A'..'Z').to_a - %w{J X Z Q A E I O U}).sample(1) + %w{A E I O U}.sample(1)
+	regs = [/(#{chrs[0]})#{chrs[1]}\1/, /(#{chrs[0]}).*\1/, /^${chrs[0]}.+#{chrs[0]}$/, 
+			/^#{chrs[0]}.+#{chrs[1]}/, /#{chrs[0]}.{3,}#{chrs[1]}/,
+			/#{chrs[1]}..#{chrs[0]}/, /^#{chrs[1]}.+#{chrs[0]}$/, /#{wd}/, //]
+	regex = regs.sample(1)[0]
+
+	matches = words.select{|w| w[regex]}.shuffle.sample(15).sort
+	rejects = words.reject{|w| regex == // ? matches.include?(w) : w[regex]}.shuffle.sample(15).sort
+
+	(matches.length <=5 || rejects.length <=5) ? getLists : [matches, rejects]
 end
 
 def score reg, m=session[:match], r=session[:reject]
-	return [[],[],0] if reg.nil? or reg == ''
+	return [[],[],m.count] if reg.nil? or reg == ''
 
 	match_res, reject_res = m.grep(/#{reg}/), r.grep(/#{reg}/)
-	score = match_res.count * 10 - reject_res.count * 10 - reg.length
+	score = match_res.count - reject_res.count- reg.length
 
-	[match_res, reject_res, score]
+	[match_res, reject_res, m.count - score - (reject_res.count==0 ? 5 : 0)]
 rescue
-	[[],[],0]
+	[[],[],m.count]
 end

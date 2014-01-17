@@ -7,10 +7,7 @@ h1 {
 	text-align: center;
 }
 ul {
-	display: inline-block;
 	list-style: none;
-	text-align: left;
-	margin: 10px 50px;
 	li {
 		font-size: 18px;
 		font-weight: normal;
@@ -24,18 +21,79 @@ li.matched {
 	margin: 2px 0px;
 	box-shadow: 0px 1px 1px gray;
 }
-#lists {
-	width: 75%;
-	margin: 0px auto;
+
+#game {
+	min-width: 700px;
+	max-width: 950px;
+	margin: 50px auto;
 	#match-list {
+		display: inline-block;
 		float: left;
-		margin-left: -15px;
 		.matched {
 			background: #33f33f; /* Old browsers */
 		}
 	}
+
+	#middle {
+		display: inline-block;
+
+		#regex-input {
+			border-radius: 10px;
+			outline: none;
+			min-width: 300px;
+			max-width: 500px;
+			width: 75%;
+			padding: 5px 10px;
+			font-size: 20px;
+			border: none;
+			box-shadow: 0px 1px 10px gray;
+			text-align: center;
+			margin: 10px auto;
+		}
+		#title {
+			font-family: serif;
+			font-weight: normal;
+			font-size: 49px;
+			margin: 0px auto;
+			margin-bottom: 20px;
+			letter-spacing: 0px;
+			margin-top: 100px;
+		}
+		#buttons > .button {
+			color: white;
+			padding: 10px;
+			background: rgba(0,0,0,0.5);
+			border-radius: 10px;
+			width: 80px;
+			margin: 10px 5px;
+			display: inline-block;
+			cursor: pointer;
+
+			&.inactive {
+				opacity: 0.5;
+				cursor: default;
+			}
+		}
+		#info {
+			font-size: 20px;
+			height: 25px;
+			#round { float: left;}
+			#total { float: right;}
+		}
+		#score {
+			font-size: 28px;
+			display: inline-block;
+			margin-left: 5px;
+		}
+		#loader {
+			display: block;
+			text-align: center;
+		}
+	}
+
 	#reject-list {
-		float: right; 
+		display: inline-block;
+		float: right;
 		.matched {
 			background: #ff3333; /* Old browsers */
 		}
@@ -44,39 +102,7 @@ li.matched {
 .unmatched {
 	background: rgba(0,0,0,0.1);
 }
-#regex-input {
-	border-radius: 10px;
-	outline: none;
-	min-width: 300px;
-	max-width: 500px;
-	width: 75%;
-	padding: 5px 10px;
-	font-size: 20px;
-	border: none;
-	box-shadow: 0px 1px 10px gray;
-	text-align: center;
-	margin: 10px auto;
-}
-#title {
-	font-family: serif;
-	font-weight: normal;
-	font-size: 49px;
-	margin: 0px 10px;
-	letter-spacing: 5px;
-	margin-top: 100px;
-}
-#score, #max-score {
-	font-size: 20px;
-	display: inline-block;
-}
-#score {
-	margin-left: 5px;
-}
 .salient-white {
 	color: white;
 	text-shadow: 0px 1px 1px gray;
-}
-#loader {
-	display: block;
-	text-align: center;
 }

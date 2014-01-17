@@ -6,9 +6,7 @@ class GolfController < ApplicationController
 		res = getLists
 		session[:match] = res[0]
 		session[:reject] = res[1]
-		session[:max] = res[2]
-		session[:regex] = res[3]
-		render :json => res[0..2].to_json
+		render :json => res.to_json
 	end
 
 	def matches

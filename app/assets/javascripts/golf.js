@@ -1,6 +1,13 @@
 var last_regex = "";
+var hole = 0;
+var score = 0;
 
 $(function() {
+	$('#loader').fadeOut(200);
+	$('#next').unbind('click');
+	$('#new').unbind('click');
+	$('#regex-input').unbind('keyup');
+
 	$('#regex-input').keyup(function(event) {
 		var text = $(event.currentTarget).val();
 		if(text != last_regex) {
@@ -8,24 +15,66 @@ $(function() {
 			last_regex = text;
 		}
 	});
-	$.getJSON('/lists',load_lists);
+	$('#next').click(function(event) {
+		nextRound();
+	});
+	$('#new').click(function(event) {
+		newGame();
+	});
 })
 
-function load_lists(data) {
+function nextRound() {
+	if(hole >=18) return;
 	$('#match-list').empty();
 	$('#reject-list').empty();
-	$('#max-score').html('/ 200');
-	for(var k=0; k<data[0].length; k++) {
-		var li1 = $('<li>').html(data[0][k]).css('opacity', '0').addClass('unmatched');
-		var li2 = $('<li>').html(data[1][k]).css('opacity', '0').addClass('unmatched');
-		$('#match-list').append(li1);
-		$('#reject-list').append(li2);
+
+	var curr_score = parseInt($('#score').html());
+	score += curr_score
+
+	$('#total').html('Score: '+score);
+	$('#score').html('0');
+	$('#regex-input').val('');
+
+	hole++;
+	$('#round').html("Hole: "+hole+" of 18");
+
+	if(hole==18) {
+		$('#next').addClass('inactive');
+		$('#new').removeClass('inactive');
 	}
-	setTimeout(function() {
-		$('li').css('opacity', '1');
-		$('#loader').fadeOut(200);
-	},500);
-	$('#max-score').html('/ ' + data[2]);
+	load_lists();
+}
+
+function newGame() {
+	if($('#new').hasClass('inactive')) return;
+	$('#total').html('Score: 0');
+	$('#score').html('0');
+	$('#regex-input').val('');
+
+	hole=1;
+	$('#round').html("Hole: "+hole+" of 18");
+	$('#next').removeClass('inactive');
+	$('#new').addClass('inactive');
+	load_lists();
+}
+
+function load_lists() {
+	$('#loader').fadeIn(200);
+	$.getJSON('/lists', {}, function(data) {
+		for(var k=0; k<data[0].length; k++) {
+			var li1 = $('<li>').html(data[0][k]).css('opacity', '0').addClass('unmatched');
+			$('#match-list').append(li1);
+		}
+		for(var k=0; k<data[1].length; k++) {
+			var li2 = $('<li>').html(data[1][k]).css('opacity', '0').addClass('unmatched');
+			$('#reject-list').append(li2);
+		}
+		$('#score').html(data[0].length+'');
+		setTimeout(function() {
+			$('li').css('opacity', '1');
+			$('#loader').fadeOut(200);
+		},500);
+	});
 }
 
 function get_matches(data) {
