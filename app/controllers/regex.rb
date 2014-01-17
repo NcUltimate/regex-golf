@@ -81,19 +81,24 @@ end
 
 def getLists
 	words = File.open('./app/controllers/unix_words.txt','r').readlines.map(&:chomp)
-	wd = dotify(words.select{|w|(3..5).include?(w.length)}
-		.sample(1)[0]).grep(/[\w]*[.]+[\w.]+/).sample(1)[0]
-	words = words.select{|w| (5..10).include?(w.length) }
+	short_wds = words.select{|w|(2..4).include?(w.length)}	
 
-	lets = (('A'..'Z').to_a - %w{A E I O U A Z V X W Q K J}).sample(4+rand(4)) + %w{A E I O U}.sample(1 + rand(2))
+	dots = short_wds.sample(10).reduce([]){|arr,w| arr += dotify(w); arr}
+	dots.select!{|d| d[/(\..*)+/]}
+	lets = (('A'..'Z').to_a - %w{A E I O U A Z V X W Q K J}).sample(3+rand(3)) + %w{A E I O U}.sample(1 + rand(1))
 	chrs = (('A'..'Z').to_a - %w{J X Z Q A E I O U}).sample(1) + %w{A E I O U}.sample(1)
-	regs = [/(#{chrs[0]})#{chrs[1]}\1/, /(#{chrs[0]}).*\1/, /^${chrs[0]}.+#{chrs[0]}$/, 
-			/#{chrs[0]}.{3,}#{chrs[1]}/, /(\w)\1$/, /(\w).\1.\1/,
-			/(\w)(\w).*\1\2/, /[#{lets.join}]+/,/^[#{lets.join}]{2}/, /^#{chrs[1]}.+#{chrs[0]}$/, /#{wd}/, //]
-	regex = regs.sample(1)[0]
 
-	matches = words.select{|w| w[regex]}.shuffle.sample(15).sort
-	rejects = words.reject{|w| regex == // ? matches.include?(w) : w[regex]}.shuffle.sample(15).sort
+	regs = [/(#{chrs[0]})#{chrs[1]}\1/, /(#{chrs[0]}).*\1/, /^#{chrs[1]}.+#{chrs[0]}$/, /#{chrs[0]}.{3,}#{chrs[1]}/, 
+			/(\w)\1$/, /(\w).\1/, /^#{'.'*(1+rand(3))}(\w).*\1$/, /(\w)(\w).*\1\2/, 
+			/[#{lets.join}]+/, /^[#{lets.join}]{2}/,//, /^.+?[#{lets.join}]{3,}$/]
+	regs += dots.sample(10).map{|d| /#{d}/}
+
+	regex = regs.sample(1)[0]
+	puts "Choosing #{regex}"
+
+	long_wds = words.select{|w| (5..10).include?(w.length) }
+	matches = long_wds.select{|w| w[regex]}.shuffle.sample(15).sort
+	rejects = long_wds.reject{|w| regex == // ? matches.include?(w) : w[regex]}.shuffle.sample(15).sort
 
 	(matches.length <=5 || rejects.length <=5) ? getLists : [matches, rejects]
 end
