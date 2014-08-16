@@ -1,7 +1,9 @@
 Regex Golf
 -----------
 
-A rails app inspired by a blog post by Peter Norvig. Visit at http://regex-golf.herokuapp.com.
+A rails app inspired by a blog post by Peter Norvig: http://www.i-programmer.info/news/144-graphics-and-games/6828-regex-golf-xkcd-and-peter-norvig.html.
+
+Visit at http://regex-golf.herokuapp.com.
 
 Use regular expressions to match all of the words in the list on the left, but none of the words in the list on the right.
 
