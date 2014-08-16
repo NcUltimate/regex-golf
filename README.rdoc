@@ -1,28 +1,8 @@
-== README
+Regex Golf
+-----------
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A rails app inspired by a blog post by Peter Norvig. Visit at http://regex-golf.herokuapp.com.
 
-Things you may want to cover:
+Use regular expressions to match all of the words in the list on the left, but none of the words in the list on the right.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Generating regular expressions to match a list of words is an example of the Set Cover problem, which is np-complete. Norvig's implementation (and my own) use greedy approximation algorithms, which first generate a list of possible regular expressions, then iteratively pick the shortest expression that matches the most words until all words are covered. This could result in a suboptimal solution, and in some cases multiple solutions are also obviously possible.
